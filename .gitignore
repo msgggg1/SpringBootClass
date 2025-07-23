@@ -1,0 +1,48 @@
+# Eclipse/STS 기본 파일 무시
+.project
+.classpath
+.settings/
+.metadata/
+.springBeans
+
+# 빌드 결과물 무시
+bin/
+target/
+build/
+out/
+
+# Java 클래스 파일 무시
+*.class
+
+# 로그파일 무시
+*.log
+logs/
+
+# 환경설정, 민감정보 무시
+.env
+*.properties.local
+*.yml.local
+
+# OS별 무시파일
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# 임시파일
+*.tmp
+*.bak
+*.swp
+*~
+
+# Maven/Gradle 관련 무시
+.mvn/
+.gradle/
+buildSrc/build/
+.mvn/wrapper/maven-wrapper.jar
+
+# STS 관련 캐시파일
+.sts4-cache/
+
+# Server configuration and temporary files
+Servers/
