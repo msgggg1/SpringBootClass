@@ -1,0 +1,18 @@
+#application.yml 파일
+#spring.application.name=sb02_mybaits
+#오라클 연결 문자열
+spring:
+  application:
+    name: sb04_oracle_mybatis_thymeleaf
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521/XE
+    username: scott
+    password: tiger
+
+mybatis:
+  config-location: classpath:mybatis-config.xml
+  mapper-locations: classpath:mappers/**/*.xml
+## 서버 포트
+server:
+  port: 80
