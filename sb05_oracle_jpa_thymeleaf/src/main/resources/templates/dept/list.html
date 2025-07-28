@@ -38,7 +38,7 @@ span.material-symbols-outlined {
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="dept:${depts}">
+				<tr th:each="dept:${depts}"><!-- EL 아님 -->
 				  <td th:text="${dept.deptno}"></td>
 				  <td>[[${dept.dname}]]</td>
 				  <td th:text="${dept.loc}"></td>

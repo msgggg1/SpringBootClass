@@ -22,15 +22,14 @@ public interface DeptRepository extends JpaRepository<Dept, Integer>{ //@Id 준 
 	Dept findByDname(String dname);
 	List<Dept> findByLoc(String loc);
 
-	// 방법3) @Query 사용. 규칙대로X
-	@Query("SELECT d FROM Dept d") // 암기
+	// 방법3) @Query 사용. JPQL
+	@Query("SELECT d FROM Dept d") // 암기. 엔티티명, 테이블명X
 	List<Dept> getAllDepts();
 	
 	// 페이징 처리 + 전체 조회
 	Page<Dept> findAll(Pageable pageable);
 
 	// [1] 부서 수정 : @Modifying + @Query 사용 (직접 SQL 작성)
-
 	@Modifying
 	@Transactional
 	@Query("UPDATE Dept d SET d.dname = :dname, d.loc = :loc WHERE d.deptno = :deptno")
