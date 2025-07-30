@@ -23,4 +23,4 @@ spring:
 
 #서버 포트
 server:
-  port: 80
+  port: 8081
