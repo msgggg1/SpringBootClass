@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: sb06_mysql_jpa_thymeleaf
+
+#오라클 DB 설정
+#  datasource:
+#    driver-class-name: oracle.jdbc.OracleDriver
+#    url: jdbc:oracle:thin:@localhost:1521/XE
+#    username: scott
+#    password: tiger
+
+
+# JPA 설정
+  jpa:
+    database: oracle
+    generate-ddl: false #무시됨
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+# mysql DB 설정
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: scott
+    password: tiger
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#서버 포트
+server:
+  port: 80

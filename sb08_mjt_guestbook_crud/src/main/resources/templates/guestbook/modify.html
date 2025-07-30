@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://bit.ly/3WJ5ilK">
+<script src="/resources/cdn-main/example.js"></script>
+<style>
+span.material-symbols-outlined {
+	vertical-align: text-bottom;
+}
+</style>
+</head>
+<body>
+	<header>
+		<h1 class="main">
+			<a href="#" style="position: absolute; top: 30px;">kEnik HOme</a>
+		</h1>
+		<ul>
+			<li><a href="#">로그인</a></li>
+			<li><a href="#">회원가입</a></li>
+		</ul>
+	</header>
+	<div>
+		<xmp class="code"> /guestbook/register.html </xmp>
+
+		<h1>GuestBook Read Page</h1>
+      
+      <form th:action="@{/guestbook/register}" method="post">
+        <div>
+          <label>Gno</label>
+          <input type="text" name="gno" th:value="${dto.gno}" readonly>
+        </div>
+        <div>
+          <label>Title</label>
+          <input type="text" name="title" th:value="${dto.title}" >
+        </div>
+        <div>
+          <label>Content</label>
+          <textarea rows="5"name="content">[[${dto.content}]]</textarea>
+        </div>
+        <div>
+          <label>Writer</label>
+          <input type="text" name="writer" th:value="${dto.writer}" readonly>
+        </div>
+        <div>
+          <label>RegDate</label>
+          <input type="text" th:value="${#temporals.format(dto.regDate,'yyyy/MM/dd HH:mm:ss')}" readonly>
+        </div>
+        <div>
+          <label>ModDate</label>
+          <input type="text" th:value="${#temporals.format(dto.modDate,'yyyy/MM/dd HH:mm:ss')}" readonly>
+        </div>
+        
+          <button type="button" class="modifyBtn">Modify</button>
+          <button type="button" class="listBtn">List</button>
+          <button type="button" class="removeBtn">Remove</button>
+        
+      </form>     
+
+	</div>
+	
+<script th:inline="javascript">
+	var actionForm = $("form");
+	$(".modifyBtn").on("click", function(){
+		if(!confirm("수정하시겠습니까?")){
+			return;
+		}//
+		actionForm.attr({
+			"action":"",
+			"method":"post"
+		}).submit();
+	});
+	$(".listBtn").on("click", function(){
+		var pageInfo = $("input[name='page']");
+		actionForm
+				.empty()
+				.append(pageInfo)
+				.attr({
+					"action":"guestbook/list",
+					"method":"get"
+				})
+				.submit();
+	});
+	$(".removeBtn").on("click", function(){
+	
+	if(!confirm("정말 삭제하시겠습니까?")){
+			return;
+		}//
+		actionForm.attr({
+			      "action":"/guestbook/remove",
+       			  "method":"post"
+		}).submit();
+	});
+</script>
+</body>
+</html>

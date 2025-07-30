@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://bit.ly/3WJ5ilK"> 
+<style>
+	a.active{
+		font-weight: bold;
+		color: red;
+	}
+</style>
+</head>
+<body>
+
+<div>
+  <xmp class="code"> 
+       /memo/list.html
+  </xmp>
+  <h1>메모 LIST</h1>
+  <table border="1">
+  	<thead>
+  		<tr>
+  			<th>번호</th>
+  			<th>내용</th>
+  		</tr>
+  	</thead>  
+  	<tbody>
+  		<tr th:each="memo : ${result.content}">
+  			<td th:text="${memo.mno}">mno</td>
+  			<td th:text="${memo.memoText}">memoText</td>
+  		</tr>
+  	</tbody>
+  	<tfoot>
+  		<tr>
+  			<td colspan="2" align="center">
+  				<div>
+  					<span th:if="${result.hasPrevious()}"><a th:href="@{'/memo/list/'+ ${currentPage-1}}">Prev</a></span>
+  					<span>[[${currentPage}]] 페이지</span>
+  					<span th:if="${result.hasNext()}"><a th:href="@{/memo/list/{page}(page=${currentPage+1})}">Next</a></span>
+  				</div>
+  			</td>
+  		</tr>
+  		<tr>
+  			<td colspan="2" align="center">
+  				<!-- [1] 2 3 > 페이지 블럭 구현 -->
+  				<div style="margin-top: 20px;">
+  					<a th:if="${startPage > 1}" th:href="@{/memo/list/{page}(page=${startPage -1})}">◀</a>
+  					<span th:each="i : ${#numbers.sequence(startPage, endPage)}">
+  					<!-- 	<a th:if="${i == currentPage}" style="color: orange" th:text="${i}"></a>
+  						<a th:unless="${i == currentPage}" th:text="${i}" th:href="@{/memo/list/{page}(page=${i})}"></a>
+  					 -->
+  					 <span th:if="${i == currentPage}" th:text="${i}" style="margin: 0 5px; font-weight: bold; color: red"></span>
+  					  <a  th:if="${i!=currentPage}" th:text="${i}" 
+			                th:href="@{/memo/list/{page}(page=${i})}"
+			                style="margin: 0 5px; text-decoration: none;"></a>
+  					 </span>
+  					<a th:if="${endPage < totalPages }" th:href="@{/memo/list/{page}(page=${endPage + 1})}">▶</a>
+  				</div>
+  			</td>
+  		</tr>
+  	</tfoot>
+  </table>
+  
+</div>
+</body>
+</html> 

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="http://bit.ly/3WJ5ilK">
+</head>
+<style>    
+ .pagination li{
+   display: inline-block;
+ }
+ .pagination li.active a{
+   color: red;
+ }
+</style>
+<body>
+	<div>
+		<xmp class="code"> </xmp>j
+		<h1>GuestBook List Page</h1>
+		<table>
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Title</th>
+					<th>Writer</th>
+					<th>Regdate</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="dto : ${result.dtoList}">
+					<th>[[${dto.gno}]]</th>
+					<td>[[${dto.title}]]</td>
+					<td>[[${dto.writer}]]</td>
+					<td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<ul class="pagination">
+							<!-- p178 -->
+							<li th:if="${result.prev}"><a
+								th:href="@{/guestbook/list(page=${result.start-1})}">Prev</a></li>
+							<li
+								th:class=" 'page-item ' + ${result.page == page ? 'active': ''} "
+								th:each="page: ${result.pageList}"><a class=""
+								th:href="@{/guestbook/list(page=${page})}">[[${page}]]</a></li>
+							<li th:if="${result.next}"><a
+								th:href="@{/guestbook/list(page=${result.end+1})}">Next</a></li>
+						</ul>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+
+	</div>
+</body>
+</html>
