@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/resources/cdn-main/example.css">
+<script src="/resources/cdn-main/example.js"></script>
+<style>
+ span.material-symbols-outlined{
+    vertical-align: text-bottom;
+ }   
+</style>
+<style>    
+ .pagination li{
+   display: inline-block;
+ }
+ .pagination li.active a{
+   color: red;
+ }
+</style>
+</head>
+<body>
+<header>
+  <h1 class="main"><a href="#" style="position: absolute;top:30px;">kEnik HOme</a></h1>
+  <ul>
+    <li><a href="#">로그인</a></li>
+    <li><a href="#">회원가입</a></li>
+  </ul>
+</header>
+<div>
+  <xmp class="code"> 
+  </xmp>
+  
+  <h1>Board List Page</h1>
+  
+  <span>
+     <a th:href="@{/board/register}"><button type="button">REGISTER</button></a>
+  </span> 
+  <br><br>
+  <table border="1" cellpadding="5" cellspacing="0">
+  	<caption></caption>
+  	<thead>
+        <tr>
+           <td>#</td>
+           <th>Title</th>
+           <th>Writer</th>
+           <th>Regdate</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<tr th:each="dto : ${result.dtoList}">
+    		<th>
+    		 <a th:href="@{/board/read(bno=${dto.bno}, 
+                  page=${result.page}, 
+                  type=${pageRequestDTO.type}, 
+                  keyword=${pageRequestDTO.keyword})}">[[${dto.bno}]]</a>
+    		</th>
+    		<td>[[${dto.title}]] <b th:text="${dto.replyCount}" class="badge right red"></b></td>
+    		<td>[[${dto.writerName}]] (<small>[[${dto.writerEmail}]]</small>)</td>
+    		<td>[[${#temporals.format(dto.regDate, 'yyyy/MM/dd')}]]</td>
+    	</tr>
+    </tbody>
+    <tfoot>
+          <tr>
+            <td colspan="4">
+              <ul class="pagination">
+                <li th:if="${result.prev}">
+                  <a th:href="@{/board/list(page=${result.start-1}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">Prev</a>
+                </li>
+                <li th:class="${result.page==page?'active':''}" th:each="page: ${result.pageList}">
+                  <a th:href="@{/board/list(page=${page}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">[[${page}]]</a>
+                </li>
+                <li th:if="${result.next}">
+                  <a th:href="@{/board/list(page=${result.end+1}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}">Next</a>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tfoot>
+  </table>
+  
+</div>
+</body>
+</html> 

@@ -1,0 +1,51 @@
+Hibernate: 
+    alter table board 
+       drop 
+       foreign key FK1iu8rhoim4thb0y12cpt01oiu
+Hibernate: 
+    alter table reply 
+       drop 
+       foreign key FKr1bmblqir7dalmh47ngwo7mcs
+Hibernate: 
+    drop table if exists board
+Hibernate: 
+    drop table if exists member
+Hibernate: 
+    drop table if exists reply
+Hibernate: 
+    create table board (
+        bno bigint not null auto_increment,
+        moddate datetime(6),
+        regdate datetime(6),
+        content varchar(255),
+        title varchar(255),
+        writer_email varchar(255),
+        primary key (bno)
+    ) engine=InnoDB
+Hibernate: 
+    create table member (
+        moddate datetime(6),
+        regdate datetime(6),
+        email varchar(255) not null,
+        name varchar(255),
+        password varchar(255),
+        primary key (email)
+    ) engine=InnoDB
+Hibernate: 
+    create table reply (
+        board_bno bigint,
+        rno bigint not null auto_increment,
+        replayer varchar(255),
+        text varchar(255),
+        primary key (rno)
+    ) engine=InnoDB
+Hibernate: 
+    alter table board 
+       add constraint FK1iu8rhoim4thb0y12cpt01oiu 
+       foreign key (writer_email) 
+       references member (email)
+Hibernate: 
+    alter table reply 
+       add constraint FKr1bmblqir7dalmh47ngwo7mcs 
+       foreign key (board_bno) 
+       references board (bno)
