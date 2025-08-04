@@ -3,10 +3,10 @@ package org.doit.ik.board.repository.search;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.doit.ik.board.entry.Board;
-import org.doit.ik.board.entry.QBoard;
-import org.doit.ik.board.entry.QMember;
-import org.doit.ik.board.entry.QReply;
+import org.doit.ik.board.entity.Board;
+import org.doit.ik.board.entity.QBoard;
+import org.doit.ik.board.entity.QMember;
+import org.doit.ik.board.entity.QReply;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -115,5 +115,6 @@ public class SearchBoardRepositoryImpl extends QuerydslRepositorySupport impleme
 				, count
 				);
 	}
+	
 
 }

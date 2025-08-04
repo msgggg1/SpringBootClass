@@ -2,7 +2,7 @@ package org.doit.ik.board.repository;
 
 import java.util.List;
 
-import org.doit.ik.board.entry.Board;
+import org.doit.ik.board.entity.Board;
 import org.doit.ik.board.repository.search.SearchBoardRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,15 +1,13 @@
 package org.doit.ik;
 
-import java.util.Arrays;
+import java.util.stream.IntStream;
 
+import org.doit.ik.board.entity.Board;
+import org.doit.ik.board.entity.Member;
 import org.doit.ik.board.repository.BoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 @SpringBootTest
 class BoardRepositoryTests {
@@ -18,7 +16,7 @@ class BoardRepositoryTests {
 	private BoardRepository boardRepository;
 
 
-	/*// 더미 데이터 추가
+	// 더미 데이터 추가
 	@Test
 	void insertBoards() {
 
@@ -36,7 +34,7 @@ class BoardRepositoryTests {
 		});      
 
 	}
-	 */
+	 
 
 	/*
 	@Test
@@ -98,6 +96,7 @@ class BoardRepositoryTests {
 	   }
 	   */
 	
+	/*
 	@Test
 	   public void testRead3() {
 	      
@@ -106,6 +105,7 @@ class BoardRepositoryTests {
 	      System.out.println(Arrays.toString(arr));
 	      
 	   }
+	   */
 
 
 }

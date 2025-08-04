@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/resources/cdn-main/example.css">
+<script src="/resources/cdn-main/example.js"></script>
+<style>
+ span.material-symbols-outlined{
+    vertical-align: text-bottom;
+ }   
+</style>
+</head>
+<body>
+<header>
+  <h1 class="main"><a href="#" style="position: absolute;top:30px;">kEnik HOme</a></h1>
+  <ul>
+    <li><a href="#">로그인</a></li>
+    <li><a href="#">회원가입</a></li>
+  </ul>
+</header>
+<div>
+  <xmp class="code"> 
+       uploadEx.html
+  </xmp>
+  
+  <h1>Ajax로 파일 업로드 처리 - form 태그 X</h1>
+  
+  <input type="file" name="uploadFiles" multiple="multiple">
+  <br>
+  <button class="uploadBtn">Upload</button>
+   
+  <div class="uploadResult">
+  </div>
+  
+</div>
+
+<script>
+	function showUploadImages(arr){
+	      console.log(arr);
+	      
+	      var divArea = $(".uploadResult");
+	      
+	      var str = "";
+	      for( var i=0; i< arr.length; i++ ){
+	        // divArea.append("<img src='/display?fileName="+arr[i].imageURL+"'>");
+	        // divArea.append("<img src='/display?fileName="+arr[i].thumbnailURL+"'>");
+	        
+	        str +="<div>";
+	        str +="<img src='/display?fileName="+arr[i].thumbnailURL+"'>";
+	        str +="<button class='removeBtn' data-name='"+arr[i].imageURL+"'>REMOVE</button>";        
+	        str +="</div>";
+	        
+	        divArea.append(str);
+	      }
+	    }
+
+  $(".uploadBtn").on("click", function(){
+     var inputFile = $("input[type='file']");
+     var files = inputFile[0].files;
+     
+     var formData = new FormData();
+     
+     for(var i = 0 ; i < files.length; i++){
+        console.log(files[i]);
+        formData.append("uploadFiles", files[i]);
+     }
+     
+     $.ajax({
+       url:'/uploadAjax',
+       processData: false,
+       contentType: false,
+       data: formData,
+       type: 'POST',
+       dataType: 'json',
+       success: function (result){
+       	console.log(result);
+       	showUploadImages(result);
+       },
+       error: function (jqXHR, textStatus, errorThrown){
+          console.log(textStatus);
+        } 
+     });
+  });
+  
+  $(".uploadResult").on("click", ".removeBtn",  function(){   // p392
+      var target = $(this);
+      var fileName = target.data("name");
+      var targetDiv = $(this).closest("div"); 
+      
+      console.log(fileName); 
+      
+      $.post( '/removeFile', {fileName: fileName}, function (result){
+       console.log(result);
+       if(result === true ){
+         targetDiv.remove();
+       } // if
+      } ); 
+    });    // click
+  
+</script>
+</body>
+</html> 

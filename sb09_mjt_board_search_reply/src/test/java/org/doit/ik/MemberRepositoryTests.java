@@ -2,7 +2,7 @@ package org.doit.ik;
 
 import java.util.stream.IntStream;
 
-import org.doit.ik.board.entry.Member;
+import org.doit.ik.board.entity.Member;
 import org.doit.ik.board.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

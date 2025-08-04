@@ -65,6 +65,173 @@
     <a th:href="@{/board/list(page=${requestDTO.page}, type=${requestDTO.type}, keyword=${requestDTO.keyword})}">
       <button type="button">List</button>
     </a>  
+    
+    <!-- 댓글 정보 화면 처리 부분 -->
+    <div>
+      <div>
+        <h5><span class="addReply">Add Reply</span></h5>
+        <h5><span class="replyCount">Reply Count : [[${dto.replyCount}]]</span></h5>
+      </div>
+      <!-- 해당 게시글의 댓글 정보를 ajax로 가져와서 출력하는 컨테이너 -->
+      <div class="replyList" style="border:1px solid blue;padding: 10px;">
+      </div>
+    </div>
+    
+    <script th:inline="javascript">
+    	$(function(){
+    	
+    	var bno = [[${dto.bno}]];  
+    	var listGroup = $(".replyList");
+    	
+    	// 날짜 처리 함수
+    	function formatTime(str){
+          var date = new Date(str);
+          return date.getFullYear()+"/"+(date.getMonth()+1)+"/"+date.getDate()+" " + date.getHours()+":"+date.getMinutes();
+        } // function formatTime(str){
+        
+        // 1. 특정 게시글의 댓글을 조회해서 처리하는 함수
+        function loadJSONData(){
+          // $.ajax() jquery 메서드만 사용
+          // get방식요청+데이터타입(Content) JSON인 ajax
+          $.getJSON('/replies/board/'+bno, function (arr){
+            // console.log( arr );
+            var str = "";
+            $(".replyCount").html(" Reply Count : " + arr.length);
+            $.each(arr, function (idx, reply){
+              console.log(reply);
+              str += '  <div class="card-body" data-rno="'+reply.rno+'"><b>'+reply.rno+'</b>';
+              str += '    <h5 class="card-title">'+reply.text+'</h5>';
+              str += '    <h6 class="card-subtitle">'+reply.replyer+'</h6>';
+              str += '    <p>'+formatTime(reply.regDate)+'</p>';
+              str += '  </div>';
+            }); // $.each(
+            
+            listGroup.html(str);
+             
+          }); // $.getJSON('
+        } // function loadJSONData(){
+        
+         $(".replyCount").on("click", function (){
+          loadJSONData();
+        });   // $(".replyCount").on("click"
+        
+        var modal = $(".modal");
+        $(".addReply").on("click", function (){
+          modal.show();
+        });        
+        
+        $(".replyClose").on("click", function (){
+          modal.hide();
+        });
+        
+        // 댓글 저장
+        $(".replySave").on("click", function (){
+          var reply = {
+             bno:bno,   // bno는 60줄 변수로 선언되어 있네. 
+             text: $('input[name="replyText"]').val(),
+             replyer: $('input[name="replyer"]').val(),
+          };
+          console.log(reply);
+          
+          $.ajax({
+            url:'/replies',
+            method:'post', 
+            data: JSON.stringify(reply),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function(data){
+              console.log(data);
+              
+              var newRno = parseInt(data);
+              alert(newRno + "번 댓글이 등록되었습니다.");
+              modal.hide();
+              
+              loadJSONData();
+            }
+          }); // $.ajax({
+        }); // $(".replySave").on("click"
+        
+        // 댓글 수정, 삭제 div 태그를 클릭할 때 이벤트 함수
+        //  $(".replyList .card-body")와 같은 의미
+        $(".replyList").on("click", ".card-body", function (){
+          
+          // data-rno=200  댓글번호
+          var rno = $(this).data("rno");
+          alert( rno );
+          
+          $("input[name='replyText']").val( $(this).find('.card-title').html() );
+          $("input[name='replyer']").val( $(this).find('.card-subtitle').html() );
+          $("input[name='rno']").val(rno);
+          
+          modal.show();
+          
+        }); // $(".replyList").on("click"
+        
+        // 삭제 버튼
+        $(".replyRemove").on("click", function (){
+          var rno = $("input[name='rno']").val();
+          $.ajax({
+            url: '/replies/' +rno,
+            method: 'delete',
+            success:function (result){
+              console.log( "result: "+result);
+              if(result === 'success'){
+                alert("댓글이 삭제되었습니다.");
+                modal.hide();
+                loadJSONData();
+              } // if
+            } // success
+          });
+        }); // $(".replyRemove").on("click"
+        
+        // 수정 버튼
+        $(".replyModify").on("click", function (){
+        
+          var rno = $("input[name='rno']").val();
+          
+          var reply = {
+            rno: rno,
+            bno: bno,
+            text: $("input[name='replyText']").val(),
+            replyer: $("input[name='replyer']").val()
+          };
+          console.log( reply );
+          
+          $.ajax({
+            url: '/replies/'+rno,
+            method: 'put',
+            data: JSON.stringify(reply),
+            contentType: 'application/json; charset=utf-8', 
+            success:function (result){
+              console.log( "result: "+result);
+              if(result === 'success'){
+                alert("댓글이 수정되었습니다.");
+                modal.hide();
+                loadJSONData();
+              } // if
+            } // success
+          }); // $.ajax({
+        }); // $(".replyModify").on("click"  
+    	
+    	}); // $(function(){
+    </script>
+    
+    <!-- 댓글 추가 사용할 모달 창 -->
+    <div class="modal" style="border:solid 1px red;padding: 10px;display: none;">
+       <h5>Reply Modal title(댓글 추가 모달창)</h5>
+       <button type="button"><span>&times;</span></button>
+       <br>
+       <input type="text" name="replyText" placeholder="Reply Text...">
+       <br>
+       <input type="text" name="replyer" placeholder="Replyer...">
+       <br>
+       <input type="hidden" name="rno">
+       <br>
+       <button type="button" class="replyRemove">Remove</button>
+       <button type="button" class="replyModify">Modify</button>
+       <button type="button" class="replySave">Save</button>
+       <button type="button" class="replyClose">Close</button>
+    </div>
   
 </div>
 </body>

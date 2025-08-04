@@ -3,8 +3,8 @@ package org.doit.ik.board.service;
 import org.doit.ik.board.dto.BoardDTO;
 import org.doit.ik.board.dto.PageRequestDTO;
 import org.doit.ik.board.dto.PageResultDTO;
-import org.doit.ik.board.entry.Board;
-import org.doit.ik.board.entry.Member;
+import org.doit.ik.board.entity.Board;
+import org.doit.ik.board.entity.Member;
 
 public interface BoardService {
 

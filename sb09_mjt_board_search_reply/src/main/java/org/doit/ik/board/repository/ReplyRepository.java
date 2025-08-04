@@ -1,6 +1,9 @@
 package org.doit.ik.board.repository;
 
-import org.doit.ik.board.entry.Reply;
+import java.util.List;
+
+import org.doit.ik.board.entity.Board;
+import org.doit.ik.board.entity.Reply;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,4 +16,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long>{
 	@Modifying
 	@Query("delete from Reply r where r.board.bno = :bno")
 	void deleteByBno(@Param("bno") Long bno);
+	
+	// 
+	List<Reply> getRepliesByBoardOrderByRno(Board board);
 }
