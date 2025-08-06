@@ -1,5 +1,7 @@
 <!-- layout.html 템플릿을 상속 -->
-<html layout:decorate="~{/question/layout}">
+<html layout:decorate="~{/question/layout}"
+xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
   <!-- <th:block layout:fragment="content"></th:block> 아래와 같은 코딩--> 
   <div layout:fragment="content" class="container my-3">
    <h1>/question/list.html</h1>
